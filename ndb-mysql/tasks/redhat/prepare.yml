@@ -1,0 +1,15 @@
+---
+
+- name: install yum utils
+  package:
+    name: yum-utils.noarch
+
+- name: add yum repositories 
+  yum:
+    name: "https://repo.mysql.com//mysql80-community-release-el7-2.noarch.rpm"
+  notify:
+    - update yum
+    - disable repo
+    - enable repo
+    - update yum
+     

@@ -1,0 +1,42 @@
+
+all:
+  vars:
+    ansible_user: user
+    ansible_ssh_private_key_file: ~/.ssh/id-
+
+###########################################################
+# Mysql cluster
+###########################################################
+
+mysql-server:
+  hosts:
+    mysql.server:
+      ansible_host: mysql.server
+      
+
+
+###########################################################
+# Management nodes
+###########################################################
+mgm-server:
+  hosts:
+    management.server:
+      ansible_host: management.server
+      
+
+###########################################################
+# NDB nodes
+###########################################################
+ndb-server:
+  hosts:
+    data1.server:
+      ansible_host: data1.server
+    data2.server:
+      ansible_host: data2.server
+
+
+cluster:
+  children:
+    mysql-server:
+    mgm-server:
+    ndb-server:

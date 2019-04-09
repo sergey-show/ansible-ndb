@@ -1,0 +1,59 @@
+---
+
+- name: Firewalld add ports
+  firewalld:
+    permanent: yes
+    state: enabled
+    port: "{{ item.port | default(item) }}/tcp"
+  with_items: "{{ firewall_allowed_tcp_ports }}"
+  notify: firewalld reload
+
+- name: directory for the configuration files
+  file:
+    path: "{{ mysql.config_path }}"
+    state: directory
+    mode: 0644
+
+- name: my.cnf config
+  template:
+    src: my.cnf.j2
+    dest: "/etc/my.cnf"
+    mode: 0644
+    backup: yes
+
+- name: my.cnf config
+  template:
+    src: my.cnf.j2
+    dest: "/etc/my.cnf"
+    mode: 0644
+    backup: yes
+
+- name: Delivery config.ini
+  when: "'mgm-server' in group_names"
+  template:
+    src: config.ini.j2
+    dest: "{{ mysql.config_path }}/config.ini"
+    mode: 0644
+    backup: yes
+
+- name: Delivery systemd for management node
+  when: "'mgm-server' in group_names"
+  template:
+    src: ndb_mgmd.service.j2
+    dest: "/etc/systemd/system/ndb_mgmd.service"
+    mode: 0644
+    backup: yes
+  notify: systemd to reload
+
+- name: Delivery systemd for data nodes
+  when: "'ndb-server' in group_names"
+  template:
+    src: ndbd.service.j2
+    dest: "/etc/systemd/system/ndbd.service"
+    mode: 0644
+    backup: yes
+  notify: systemd to reload
+
+
+
+    

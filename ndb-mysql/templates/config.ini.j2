@@ -1,0 +1,69 @@
+#jinja2: lstrip_blocks: True
+# NDB Mysql database configuration file for cluster.
+#
+# {{ ansible_managed }}
+#
+[ndb_mgmd default]
+Portnumber=1186
+DataDir={{ mysql.config_path }}
+ArbitrationRank=1
+
+[ndb_mgmd]
+NodeId=1
+hostname=managent.server
+
+[tcp default]
+portnumber=2202
+SendBufferMemory=2M
+ReceiveBufferMemory=2M
+
+[ndbd default]
+BackupMaxWriteSize=1M
+BackupDataBufferSize=16M
+BackupLogBufferSize=4M
+BackupMemory=20M
+BackupReportFrequency=10
+MemReportFrequency=30
+LogLevelStartup=15
+LogLevelShutdown=15
+LogLevelCheckpoint=8
+LogLevelNodeRestart=15
+DataMemory=1024M
+IndexMemory=256M
+MaxNoOfTables=4096
+MaxNoOfTriggers=3500
+NoOfReplicas=2
+StringMemory=25
+DiskPageBufferMemory=64M
+SharedGlobalMemory=20M
+LongMessageBuffer=32M
+MaxNoOfConcurrentTransactions=16384
+BatchSizePerLocalScan=512
+FragmentLogFileSize=64M
+NoOfFragmentLogFiles=16
+RedoBuffer=32M
+MaxNoOfExecutionThreads=2
+StopOnError=false
+LockPagesInMainMemory=1
+TimeBetweenEpochsTimeout=32000
+TimeBetweenWatchdogCheckInitial=60000
+TransactionInactiveTimeout=60000
+HeartbeatIntervalDbDb=15000
+HeartbeatIntervalDbApi=15000
+DataDir={{ mysql.config_path }}
+
+[ndbd]
+NodeId=2
+hostname=data1.server
+DataDir={{ mysql.config_path }}
+
+[ndbd]
+NodeId=3
+hostname=data2.server
+DataDir={{ mysql.config_path }}
+
+[mysqld(API)]
+NodeId=4
+port = 3306
+hostname=mysql.server
+

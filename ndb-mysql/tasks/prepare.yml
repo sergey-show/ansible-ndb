@@ -1,0 +1,5 @@
+---
+
+- name: prepare rhel
+  include: redhat/prepare.yml
+  when: (ansible_os_family | lower == "redhat")

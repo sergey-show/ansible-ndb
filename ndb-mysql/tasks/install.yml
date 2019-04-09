@@ -1,0 +1,25 @@
+---
+
+- name: install package mysql-cluster-community-management-server
+  when: "'mgm-server' in group_names"
+  yum:
+    name: mysql-cluster-community-management-server
+    state: present
+  notify:
+    - initial
+
+- name: install package mysql-cluster-community-server
+  when: "'mysql-server' in group_names"
+  yum:
+    name: mysql-cluster-community-server
+    state: present
+  notify: 
+    - restart mysqld
+
+- name: install package mysql-cluster-community-data-node
+  when: "'ndb-server' in group_names"
+  yum:
+    name: mysql-cluster-community-data-node
+    state: present
+  notify:
+    - Register node on management server

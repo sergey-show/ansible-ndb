@@ -1,0 +1,14 @@
+#jinja2: lstrip_blocks: True
+# NDB Mysql database configuration file for cluster.
+#
+# {{ ansible_managed }}
+#
+[mysqld]
+ndbcluster
+ndb-connectstring=managent.server
+default_storage_engine=ndbcluster
+port=3306
+
+[mysql_cluster]
+ndb-connectstring=managent.server
+

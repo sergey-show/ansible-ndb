@@ -1,0 +1,45 @@
+---
+
+- name: disable repo
+  shell: "sudo yum-config-manager --disable mysql80-community"
+  become: true
+
+- name: enable repo
+  shell: "yum-config-manager --enable mysql-cluster-7.5-community"
+  become: true
+
+- name: update yum
+  shell: "yum update -y"
+  become: true
+
+- name: firewalld reload
+  command: firewall-cmd --reload
+  become: true
+
+- name: systemd to reload
+  systemd:
+    daemon_reload: yes
+
+- name: initial
+  when: "'mgm-server' in group_names"
+  systemd:
+    state: restarted
+    enabled: yes
+    name: ndb_mgmd
+  become: true
+
+- name: Register node on management server
+  when: "'ndb-server' in group_names"
+  systemd:
+    state: restarted
+    enabled: yes
+    name: ndbd
+  become: true
+
+- name: restart mysqld
+  when: "'mysql-server' in group_names"
+  systemd:
+    state: restarted
+    enabled: yes
+    name: mysqld
+  become: true

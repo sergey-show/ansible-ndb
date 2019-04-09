@@ -1,0 +1,13 @@
+---
+
+mysql:
+
+  config_path: '/var/lib/mysql-cluster'
+
+firewall_allowed_tcp_ports:
+  - 3306
+  - 1186
+  - 2202
+
+ndb_mgmd:
+  
