@@ -11,3 +11,7 @@
 This role for Redhat os family, el7
 
 Setup all packets from rpm of mysql repository
+
+Future TODO
+
+get ver
