@@ -8,6 +8,7 @@ firewall_allowed_tcp_ports:
   - 3306
   - 1186
   - 2202
+  - 32768-61000
 
 ndb_mgmd:
   
